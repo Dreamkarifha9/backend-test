@@ -85,6 +85,11 @@ type UserResponseDto {
   userPermissions: [Permission!]!
 }
 
+type LoggedUserOutput {
+  """Generated token of the user"""
+  token: String!
+}
+
 type Query {
   words: Word!
   user(id: String!): UserResponseDto!
@@ -95,7 +100,7 @@ type Mutation {
   createUser(input: CreateUserInput!): UserResponseDto!
   updateUser(id: String!, input: UpdateUserInput!): UserResponseDto!
   deleteUser(id: String!): Boolean!
-  login(input: LocalLoginDto!): String!
+  loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
 }
 
 input CreateUserInput {
@@ -116,7 +121,10 @@ input UpdateUserInput {
   roleId: Float
 }
 
-input LocalLoginDto {
+input LoginUserInput {
+  """username of the user"""
   username: String!
+
+  """password of the user"""
   password: String!
 }

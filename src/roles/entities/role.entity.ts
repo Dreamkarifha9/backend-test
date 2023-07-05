@@ -9,7 +9,7 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 import { FilterableField, IDField } from '@nestjs-query/query-graphql';
-import { User } from 'src/user/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 @Entity('roles', { schema: 'user' })
 @ObjectType({
   implements: () => [BasicData],

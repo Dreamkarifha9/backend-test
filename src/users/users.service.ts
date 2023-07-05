@@ -1,4 +1,10 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserInput } from './dto/create-user.input';
@@ -8,12 +14,15 @@ import { UserResponseDto } from './dto/user-response.dto';
 import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserInput } from './dto/update-user.input';
+import { LoginUserInput } from './dto/login-user.input';
+import { AuthService } from 'src/auth/services/auth.service';
 @Injectable()
-export class UserService {
-  private readonly logger: Logger = new Logger(UserService.name);
+export class UsersService {
+  private readonly logger: Logger = new Logger(UsersService.name);
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly authService: AuthService,
   ) { }
 
   async create(userDto: CreateUserInput): Promise<UserResponseDto> {
@@ -37,9 +46,7 @@ export class UserService {
 
   async validatePassword(username: string, plainPassword: string) {
     username = username.toLowerCase();
-    const user = await this.userRepository
-      .createQueryBuilder('users')
-      .addSelect(['users.*', 'users.password'])
+    const user = await this.getJoinRoleAndPermissions()
       .where('users.username = :username', { username })
       .andWhere('users.active = :active', { active: true })
       .andWhere('users.deleted = :deleted', { deleted: false })
@@ -68,6 +75,7 @@ export class UserService {
 
   async findAll(): Promise<UserResponseDto[]> {
     const foundUsers = await this.getJoinRoleAndPermissions().getMany();
+
     this.logger.debug(`display :: ${JSON.stringify(foundUsers)}`);
     return foundUsers;
   }
@@ -75,7 +83,13 @@ export class UserService {
   private getJoinRoleAndPermissions() {
     return this.userRepository
       .createQueryBuilder('users')
-      .select(['users.id', 'users.email', 'users.firstName', 'users.lastName'])
+      .select([
+        'users.id',
+        'users.email',
+        'users.firstName',
+        'users.lastName',
+        'users.password',
+      ])
       .leftJoin('users.userRole', 'userRole')
       .addSelect(['userRole.id', 'userRole.name'])
       .leftJoin('users.userPermissions', 'userPermissions')
@@ -99,5 +113,18 @@ export class UserService {
     await this.findById(id);
     await this.userRepository.delete(id);
     return true;
+  }
+
+  async loginUser(loginUserInput: LoginUserInput) {
+    const user = await this.authService.validateUser(
+      loginUserInput.username,
+      loginUserInput.password,
+    );
+    this.logger.debug(`user loginUser display ${JSON.stringify(user)}`);
+    if (!user) {
+      throw new UnauthorizedException();
+    } else {
+      return this.authService.generateUserCredentials(user);
+    }
   }
 }
