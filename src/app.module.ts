@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfig } from './configs/database.config';
 import { PermissionsModule } from './permissions/permissions.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PermissionsModule } from './permissions/permissions.module';
     WordsModule,
     UserModule,
     PermissionsModule,
+    RolesModule,
   ],
 })
 export class AppModule { }

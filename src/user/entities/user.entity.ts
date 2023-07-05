@@ -1,13 +1,31 @@
-import { ObjectType } from '@nestjs/graphql';
+import { ID, ObjectType } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
 import { BasicData } from 'src/shared/dtos/basic-data.entity';
-import { AfterLoad, BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
-import { FilterableField } from '@nestjs-query/query-graphql';
+import {
+  AfterLoad,
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { FilterableField, IDField } from '@nestjs-query/query-graphql';
+import { Role } from 'src/roles/entities/role.entity';
+import { Permission } from 'src/permissions/entities/permission.entity';
 @Entity('users', { schema: 'user' })
 @ObjectType({
   implements: () => [BasicData],
 })
 export class User extends BasicData {
+  @PrimaryGeneratedColumn('uuid')
+  @IDField(() => ID, {
+    nullable: true,
+  })
+  public id!: string;
+
   @Column({ unique: false, nullable: false })
   @FilterableField({ nullable: true })
   username: string;
@@ -28,9 +46,20 @@ export class User extends BasicData {
   @FilterableField({ nullable: true })
   password: string;
 
+  @Column()
+  @FilterableField(() => Number)
+  roleId: number;
+
   @Column({ nullable: true, select: false })
   @FilterableField({ nullable: true })
   salt?: string;
+
+  @OneToOne(() => Role, (role) => role.user)
+  @JoinColumn({ name: 'roleId' })
+  role?: Role;
+
+  @OneToMany(() => Permission, (permission) => permission.users)
+  permissions?: Permission;
 
   private tmpPassword?: string;
 

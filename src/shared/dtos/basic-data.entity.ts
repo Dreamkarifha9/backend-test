@@ -1,6 +1,6 @@
-import { ID, InterfaceType } from '@nestjs/graphql';
-import { PrimaryGeneratedColumn, Column } from 'typeorm';
-import { FilterableField, IDField } from '@nestjs-query/query-graphql';
+import { InterfaceType } from '@nestjs/graphql';
+import { Column } from 'typeorm';
+import { FilterableField } from '@nestjs-query/query-graphql';
 /**
  * Class the represents a BasicData entity that must be inherited for all of
  * the entities used in the application
@@ -9,12 +9,6 @@ import { FilterableField, IDField } from '@nestjs-query/query-graphql';
   isAbstract: true,
 })
 export abstract class BasicData {
-  @PrimaryGeneratedColumn('uuid')
-  @IDField(() => ID, {
-    nullable: true,
-  })
-  public id!: string;
-
   @Column({
     type: 'boolean',
     nullable: false,

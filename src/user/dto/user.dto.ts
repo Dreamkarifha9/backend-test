@@ -29,4 +29,7 @@ export class UserDto extends BaseDataDto {
   @Field()
   @IsEmail()
   email!: string;
+
+  @Field(() => Number)
+  roleId!: number;
 }
