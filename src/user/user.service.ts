@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { v4 as uuid } from 'uuid';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UserDto } from './dto/user.dto';
+import * as bcrypt from 'bcrypt';
 import { UpdateUserInput } from './dto/update-user.input';
 @Injectable()
 export class UserService {
@@ -32,6 +33,26 @@ export class UserService {
     this.logger.debug(`createdUser ${JSON.stringify(createdUser)}`);
 
     return this.findById(createdUser.id);
+  }
+
+  async validatePassword(username: string, plainPassword: string) {
+    username = username.toLowerCase();
+    const user = await this.userRepository
+      .createQueryBuilder('users')
+      .addSelect(['users.*', 'users.password'])
+      .where('users.username = :username', { username })
+      .andWhere('users.active = :active', { active: true })
+      .andWhere('users.deleted = :deleted', { deleted: false })
+      .getOne();
+    this.logger.debug(`user display ${JSON.stringify(user)}`);
+    if (!user) {
+      throw new NotFoundException('userNotFound');
+    }
+    const { password, ...others } = user;
+    if (await bcrypt.compareSync(plainPassword, password)) {
+      return others as User;
+    }
+    return null;
   }
 
   /**
