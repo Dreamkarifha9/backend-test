@@ -14,7 +14,7 @@ export class WordsService {
     return word;
   }
 
-  cutWords(inputString, dictionary) {
+  cutWords(inputString: string, dictionary: string[]): string[] {
     const output = [];
     let currentWord = '';
 
