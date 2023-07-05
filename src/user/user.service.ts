@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { CreateUserInput } from './dto/create-user.input';
 import { User } from './entities/user.entity';
 import { v4 as uuid } from 'uuid';
+import { UserResponseDto } from './dto/user-response.dto';
+import { UserDto } from './dto/user.dto';
 @Injectable()
 export class UserService {
   private readonly logger: Logger = new Logger(UserService.name);
@@ -12,7 +14,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) { }
 
-  async create(userDto: CreateUserInput): Promise<User> {
+  async create(userDto: CreateUserInput): Promise<UserResponseDto> {
     this.logger.verbose(`userDto ${JSON.stringify(userDto)}`);
     const user: User = {
       id: uuid(),
@@ -28,15 +30,30 @@ export class UserService {
     const createdUser = await this.userRepository.save(newUser);
     this.logger.debug(`createdUser ${JSON.stringify(createdUser)}`);
 
-    return createdUser;
+    return this.findById(createdUser.id);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  /**
+   * Returns a user by given id
+   */
+  async findById(id: string): Promise<UserResponseDto> {
+    const user = await this.userRepository
+      .createQueryBuilder('users')
+      .select([
+        'users.id',
+        'users.username',
+        'users.firstName',
+        'users.lastName',
+        'users.email',
+      ])
+      .where('users.id = :id', { id })
+      .getOne();
+    return user;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findAll(): Promise<UserResponseDto[]> {
+    const foundUsers = await this.userRepository.find();
+    return foundUsers;
   }
 
   remove(id: number) {

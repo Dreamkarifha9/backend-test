@@ -6,43 +6,21 @@ type Word {
   output: [String!]!
 }
 
-type User implements BasicData {
+type UserResponseDto {
   id: ID
-  active: Boolean!
-  deleted: Boolean!
-  createdAt: DateTime
-  createdBy: String
-  updatedAt: DateTime
-  updatedBy: String
-  username: String
   firstName: String
   lastName: String
   email: String
-  password: String
-  salt: String
 }
-
-interface BasicData {
-  id: ID
-  active: Boolean!
-  deleted: Boolean!
-  createdAt: DateTime
-  createdBy: String
-  updatedAt: DateTime
-  updatedBy: String
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Query {
   words: Word!
+  user(id: String!): UserResponseDto!
+  users: [UserResponseDto!]!
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User!
+  createUser(input: CreateUserInput!): UserResponseDto!
 }
 
 input CreateUserInput {

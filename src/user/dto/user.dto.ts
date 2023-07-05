@@ -1,7 +1,8 @@
 import { IsDefined, IsEmail, IsString } from 'class-validator';
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { BaseDataDto } from 'src/shared/dtos/base-data.dto';
 @InputType()
+@ObjectType()
 export class UserDto extends BaseDataDto {
   id: string;
 
