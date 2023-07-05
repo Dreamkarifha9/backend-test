@@ -18,7 +18,7 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
       username: this.configService.get<string>('POSTGRES_USERNAME', 'postgres'),
       password: this.configService.get<string>('POSTGRES_PASSWORD', 'postgres'),
       database: this.configService.get<string>('POSTGRES_DATABASE', 'prism'),
-      synchronize: true,
+      synchronize: false,
       entities: [entitiesPath],
       migrations: [migrationPath],
       logging: this.configService.get('POSTGRES_LOGGING', 'true') === 'true',
