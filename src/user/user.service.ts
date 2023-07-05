@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserInput } from './dto/create-user.input';
@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { v4 as uuid } from 'uuid';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UserDto } from './dto/user.dto';
+import { UpdateUserInput } from './dto/update-user.input';
 @Injectable()
 export class UserService {
   private readonly logger: Logger = new Logger(UserService.name);
@@ -48,6 +49,7 @@ export class UserService {
       ])
       .where('users.id = :id', { id })
       .getOne();
+    if (!user) throw new NotFoundException('userNotFound');
     return user;
   }
 
@@ -56,7 +58,20 @@ export class UserService {
     return foundUsers;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(id: string, userDto: UpdateUserInput): Promise<UserResponseDto> {
+    const foundUser = await this.findById(id);
+    // todo: return userNotFound
+    const mapUserDto = {
+      ...foundUser,
+      ...userDto,
+    };
+    this.logger.debug(`mapUserDto ${JSON.stringify(mapUserDto)}`);
+    return await this.userRepository.save(mapUserDto);
+  }
+
+  async delete(id: string): Promise<boolean> {
+    await this.findById(id);
+    await this.userRepository.delete(id);
+    return true;
   }
 }
