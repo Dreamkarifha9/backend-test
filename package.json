@@ -37,6 +37,7 @@
     "graphql": "^16.7.1",
     "graphql-subscriptions": "^2.0.0",
     "http-proxy-middleware": "^2.0.6",
+    "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pg": "^8.11.1",
     "reflect-metadata": "^0.1.13",

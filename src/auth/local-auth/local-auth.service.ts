@@ -15,5 +15,4 @@ export class LocalAuthService {
     }
     return foundUser;
   }
-
 }

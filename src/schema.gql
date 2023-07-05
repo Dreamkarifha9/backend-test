@@ -95,6 +95,7 @@ type Mutation {
   createUser(input: CreateUserInput!): UserResponseDto!
   updateUser(id: String!, input: UpdateUserInput!): UserResponseDto!
   deleteUser(id: String!): Boolean!
+  login(input: LocalLoginDto!): String!
 }
 
 input CreateUserInput {
@@ -113,4 +114,9 @@ input UpdateUserInput {
   lastName: String
   email: String
   roleId: Float
+}
+
+input LocalLoginDto {
+  username: String!
+  password: String!
 }

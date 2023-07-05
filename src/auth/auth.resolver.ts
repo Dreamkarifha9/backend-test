@@ -4,12 +4,11 @@ import { LocalLoginDto } from './local-auth/dto/local-login.dto';
 import { LocalAuthGuard } from './local-auth/local-auth.guard';
 import { LocalAuthService } from './local-auth/local-auth.service';
 
-@Resolver('Auth')
+@Resolver(() => 'Auth')
 export class AuthResolver {
   constructor(private readonly localAuthService: LocalAuthService) { }
-
   @UseGuards(LocalAuthGuard)
-  @Mutation(() => LocalLoginDto, { name: 'login' })
+  @Mutation(() => String, { name: 'login' })
   async login(
     @Args('input', {
       type: () => LocalLoginDto,
