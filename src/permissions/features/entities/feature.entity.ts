@@ -1,4 +1,4 @@
-import { ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { BasicData } from 'src/shared/dtos/basic-data.entity';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { FilterableField, IDField } from '@nestjs-query/query-graphql';
@@ -12,6 +12,7 @@ export class Feature extends BasicData {
   @IDField(() => ID, {
     nullable: true,
   })
+  @Field(() => Number)
   id: number;
 
   @Column({ unique: false, nullable: false })

@@ -54,8 +54,21 @@ export class UserService {
   }
 
   async findAll(): Promise<UserResponseDto[]> {
-    const foundUsers = await this.userRepository.find();
+    const foundUsers = await this.getJoinRoleAndPermissions().getMany();
+    this.logger.debug(`display :: ${JSON.stringify(foundUsers)}`);
     return foundUsers;
+  }
+
+  private getJoinRoleAndPermissions() {
+    return this.userRepository
+      .createQueryBuilder('users')
+      .select(['users.id', 'users.email', 'users.firstName', 'users.lastName'])
+      .leftJoin('users.userRole', 'userRole')
+      .addSelect(['userRole.id', 'userRole.name'])
+      .leftJoin('users.userPermissions', 'userPermissions')
+      .addSelect(['userPermissions.userId', 'userPermissions.featureId'])
+      .leftJoin('userPermissions.feature', 'feature')
+      .addSelect(['feature.id', 'feature.name']);
   }
 
   async update(id: string, userDto: UpdateUserInput): Promise<UserResponseDto> {

@@ -27,14 +27,17 @@ export class Permission extends BasicData {
   userId: string;
 
   @Column({ nullable: false, type: 'int4' })
-  @Field(() => Number)
+  @FilterableField(() => Number)
   featureId: number;
 
-  @ManyToOne(() => User, (user) => user.permissions)
+  @ManyToOne(() => User, (user) => user.userPermissions)
   @JoinColumn({ name: 'userId' })
-  users: User;
+  @Field(() => User)
+  users?: User;
 
   @OneToOne(() => Feature, (feature) => feature.permissions)
+  @JoinColumn({ name: 'featureId' })
+  @Field(() => Feature)
   feature?: Feature;
 
   public constructor(partial: Partial<Permission>) {

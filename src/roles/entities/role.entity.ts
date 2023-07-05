@@ -1,4 +1,4 @@
-import { ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { BasicData } from 'src/shared/dtos/basic-data.entity';
 import {
   Column,
@@ -19,13 +19,14 @@ export class Role extends BasicData {
   @IDField(() => ID, {
     nullable: true,
   })
+  @FilterableField(() => Number)
   id: number;
 
   @Column({ nullable: false, type: 'varchar' })
   @FilterableField(() => String)
   name: string;
 
-  @OneToOne(() => User, (user) => user.role)
+  @OneToOne(() => User, (user) => user.userRole)
   @JoinColumn({ name: 'id' })
   user?: User;
 

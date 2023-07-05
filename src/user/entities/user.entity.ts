@@ -1,4 +1,4 @@
-import { ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
 import { BasicData } from 'src/shared/dtos/basic-data.entity';
 import {
@@ -56,10 +56,12 @@ export class User extends BasicData {
 
   @OneToOne(() => Role, (role) => role.user)
   @JoinColumn({ name: 'roleId' })
-  role?: Role;
+  @Field()
+  userRole?: Role;
 
   @OneToMany(() => Permission, (permission) => permission.users)
-  permissions?: Permission;
+  @Field(() => [Permission])
+  userPermissions?: Permission[];
 
   private tmpPassword?: string;
 

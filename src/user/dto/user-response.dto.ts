@@ -1,4 +1,4 @@
-import { ObjectType, PickType } from '@nestjs/graphql';
+import { Field, ObjectType, PickType } from '@nestjs/graphql';
 import { User } from '../entities/user.entity';
 
 @ObjectType()
@@ -7,4 +7,6 @@ export class UserResponseDto extends PickType(User, [
   'email',
   'firstName',
   'lastName',
+  'userRole',
+  'userPermissions',
 ]) { }

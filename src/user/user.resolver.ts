@@ -1,7 +1,6 @@
-import { Resolver, Query, Mutation, Args, PartialType } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { CreateUserInput } from './dto/create-user.input';
-import { UserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UpdateUserInput } from './dto/update-user.input';
