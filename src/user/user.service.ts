@@ -12,10 +12,8 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) { }
 
-  async create(usercreateUserInput: CreateUserInput): Promise<User> {
-    this.logger.verbose(
-      `createUserInput ${JSON.stringify(usercreateUserInput)}`,
-    );
+  async create(userDto: CreateUserInput): Promise<User> {
+    this.logger.verbose(`userDto ${JSON.stringify(userDto)}`);
     const user: User = {
       id: uuid(),
       active: true,
@@ -24,13 +22,13 @@ export class UserService {
       createdBy: 'system',
       updatedAt: new Date(),
       updatedBy: 'system',
-      ...usercreateUserInput,
+      ...userDto,
     };
     const newUser = this.userRepository.create(user);
-    const createUser = await this.userRepository.save(newUser);
-    this.logger.debug(`createUser ${JSON.stringify(createUser)}`);
+    const createdUser = await this.userRepository.save(newUser);
+    this.logger.debug(`createdUser ${JSON.stringify(createdUser)}`);
 
-    return createUser;
+    return createdUser;
   }
 
   findAll() {
