@@ -1,0 +1,24 @@
+type Feature {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateFeatureInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateFeatureInput {
+  id: Int!
+}
+
+type Query {
+  features: [Feature]!
+  feature(id: Int!): Feature
+}
+
+type Mutation {
+  createFeature(createFeatureInput: CreateFeatureInput!): Feature!
+  updateFeature(updateFeatureInput: UpdateFeatureInput!): Feature!
+  removeFeature(id: Int!): Feature
+}
