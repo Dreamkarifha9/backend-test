@@ -3,5 +3,6 @@ import { LocalAuthService } from './local-auth.service';
 
 @Module({
   providers: [LocalAuthService],
+  exports: [LocalAuthService],
 })
 export class LocalAuthModule { }
