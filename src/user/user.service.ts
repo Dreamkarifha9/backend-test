@@ -38,15 +38,7 @@ export class UserService {
    * Returns a user by given id
    */
   async findById(id: string): Promise<UserResponseDto> {
-    const user = await this.userRepository
-      .createQueryBuilder('users')
-      .select([
-        'users.id',
-        'users.username',
-        'users.firstName',
-        'users.lastName',
-        'users.email',
-      ])
+    const user = await this.getJoinRoleAndPermissions()
       .where('users.id = :id', { id })
       .getOne();
     if (!user) throw new NotFoundException('userNotFound');
