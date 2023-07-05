@@ -4,6 +4,7 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
 import { UserResponseDto } from './dto/user-response.dto';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -29,13 +30,19 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
-  // @Mutation('updateUser')
-  // update(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-  //   return this.userService.update(updateUserInput.id, updateUserInput);
-  // }
+  @Mutation(() => UserResponseDto, { name: 'updateUser' })
+  update(
+    @Args('id') id: string,
+    @Args('input', {
+      type: () => UpdateUserInput,
+    })
+    updateUserInput: UpdateUserInput,
+  ): Promise<UserResponseDto> {
+    return this.userService.update(id, updateUserInput);
+  }
 
-  // @Mutation('removeUser')
-  // remove(@Args('id') id: number) {
-  //   return this.userService.remove(id);
-  // }
+  @Mutation(() => Boolean, { name: 'deleteUser' })
+  delete(@Args('id') id: string): Promise<boolean> {
+    return this.userService.delete(id);
+  }
 }
