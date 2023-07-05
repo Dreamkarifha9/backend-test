@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfig } from './configs/database.config';
+import { PermissionsModule } from './permissions/permissions.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { DatabaseConfig } from './configs/database.config';
     }),
     WordsModule,
     UserModule,
+    PermissionsModule,
   ],
 })
 export class AppModule { }
