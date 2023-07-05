@@ -31,6 +31,7 @@ input CreateUserInput {
   firstName: String!
   lastName: String!
   email: String!
+  roleId: Float!
 }
 
 input UpdateUserInput {
@@ -39,4 +40,5 @@ input UpdateUserInput {
   firstName: String
   lastName: String
   email: String
+  roleId: Float
 }
