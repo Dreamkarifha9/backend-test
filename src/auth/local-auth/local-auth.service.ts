@@ -1,26 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLocalAuthInput } from './dto/create-local-auth.input';
-import { UpdateLocalAuthInput } from './dto/update-local-auth.input';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class LocalAuthService {
-  create(createLocalAuthInput: CreateLocalAuthInput) {
-    return 'This action adds a new localAuth';
-  }
+  constructor(private readonly usersService: UserService) { }
 
-  findAll() {
-    return `This action returns all localAuth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} localAuth`;
-  }
-
-  update(id: number, updateLocalAuthInput: UpdateLocalAuthInput) {
-    return `This action updates a #${id} localAuth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} localAuth`;
+  async validateUser(username: string, password: string) {
+    const foundUser = await this.usersService.validatePassword(
+      username,
+      password,
+    );
+    if (!foundUser) {
+      throw new UnauthorizedException();
+    }
+    return foundUser;
   }
 }
