@@ -6,7 +6,9 @@ CREATE TABLE IF NOT EXISTS "user"."users" (
     "firstName" CHARACTER VARYING NULL,
     "lastName" CHARACTER VARYING NULL,
     "email" CHARACTER VARYING NULL,
-    
+    "roleId" serial4 NOT NULL,
+
+
     "active" BOOLEAN DEFAULT true,
     "deleted" BOOLEAN DEFAULT false,
     "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
@@ -15,5 +17,6 @@ CREATE TABLE IF NOT EXISTS "user"."users" (
     "updatedBy" CHARACTER VARYING,
 
     CONSTRAINT "pk_users" PRIMARY KEY ("id"),
-    CONSTRAINT "uq_users_username" UNIQUE (username)
+    CONSTRAINT "uq_users_username" UNIQUE (username),
+    CONSTRAINT "fk_users_role" FOREIGN KEY ("roleId") REFERENCES "user".roles(id)
 );
