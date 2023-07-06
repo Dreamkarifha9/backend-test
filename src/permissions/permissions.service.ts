@@ -46,19 +46,16 @@ export class PermissionsService {
       ]);
   }
 
-  findAll() {
-    return `This action returns all permissions`;
-  }
+  async delete(userId: string): Promise<boolean> {
+    const userPermissions = await this.permissionRepository.find({
+      where: { userId },
+    });
+    if (userPermissions) {
+      const ids = userPermissions.map((permissions) => permissions.id);
+      await this.permissionRepository.delete(ids);
+      return true;
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} permission`;
-  }
-
-  update(id: number, updatePermissionInput: UpdatePermissionInput) {
-    return `This action updates a #${id} permission`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} permission`;
+    return false;
   }
 }

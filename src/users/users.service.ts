@@ -98,6 +98,7 @@ export class UsersService {
 
   async update(id: string, userDto: UpdateUserInput): Promise<UserResponseDto> {
     const foundUser = await this.findById(id);
+    delete foundUser.permissions && foundUser.role;
     // todo: return userNotFound
     const mapUserDto = {
       ...foundUser,

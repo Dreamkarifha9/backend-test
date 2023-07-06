@@ -107,6 +107,7 @@ type Mutation {
   deleteUser(id: String!): Boolean!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
   createPermissions(input: [CreatePermissionInput!]!): [PermissionResponseDto!]!
+  deletePermission(userId: String!): Boolean!
 }
 
 input CreateUserInput {

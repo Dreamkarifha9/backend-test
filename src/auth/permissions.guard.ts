@@ -29,8 +29,8 @@ export class PermissionGuard implements CanActivate {
 
     const request = GqlExecutionContext.create(context).getContext();
     const { sub: userId } = request && request.user;
-
     const user = await this.userService.findById(userId);
+
     if (!user) return false;
 
     const hasRole = user.permissions.map(({ feature }) =>

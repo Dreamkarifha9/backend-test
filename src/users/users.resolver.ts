@@ -50,6 +50,7 @@ export class UsersResolver {
     })
     updateUserInput: UpdateUserInput,
   ): Promise<UserResponseDto> {
+    console.log('sds');
     return this.usersService.update(id, updateUserInput);
   }
 

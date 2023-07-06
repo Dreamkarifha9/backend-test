@@ -28,4 +28,11 @@ export class PermissionsResolver {
     const { username } = user;
     return this.permissionsService.create(createPermissionInput, username);
   }
+
+  @UseGuards(AuthGuard, PermissionGuard)
+  @PROTECTTO(EUserPermission.DELETE)
+  @Mutation(() => Boolean, { name: 'deletePermission' })
+  delete(@Args('userId') userId: string): Promise<boolean> {
+    return this.permissionsService.delete(userId);
+  }
 }
