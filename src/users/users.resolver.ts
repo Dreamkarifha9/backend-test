@@ -6,12 +6,12 @@ import { UserResponseDto } from './dto/user-response.dto';
 import { UpdateUserInput } from './dto/update-user.input';
 import { LoggedUserOutput } from './dto/login-user.output';
 import { LoginUserInput } from './dto/login-user.input';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { PROTECTTO } from './../shared/decorators';
+import { AuthGuard } from './../auth/auth.guard';
+import { PermissionGuard } from 'src/auth/permissions.guard';
+import { PROTECTTO } from 'src/shared/decorators';
 import { EUserPermission } from 'src/shared/enums';
-import { PermissionGuard } from 'src/permissions/permissions.guard';
+
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) { }
@@ -26,6 +26,8 @@ export class UsersResolver {
     return await this.usersService.create(createUserInput);
   }
 
+  @UseGuards(AuthGuard, PermissionGuard)
+  @PROTECTTO(EUserPermission.READ)
   @Query(() => UserResponseDto, { name: 'user' })
   findOne(@Args('id') id: string) {
     return this.usersService.findById(id);
@@ -38,6 +40,8 @@ export class UsersResolver {
     return this.usersService.findAll();
   }
 
+  @UseGuards(AuthGuard, PermissionGuard)
+  @PROTECTTO(EUserPermission.UPDATE)
   @Mutation(() => UserResponseDto, { name: 'updateUser' })
   update(
     @Args('id') id: string,
@@ -49,6 +53,8 @@ export class UsersResolver {
     return this.usersService.update(id, updateUserInput);
   }
 
+  @UseGuards(AuthGuard, PermissionGuard)
+  @PROTECTTO(EUserPermission.DELETE)
   @Mutation(() => Boolean, { name: 'deleteUser' })
   delete(@Args('id') id: string): Promise<boolean> {
     return this.usersService.delete(id);

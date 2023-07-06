@@ -24,11 +24,11 @@ export class AuthService {
   async generateUserCredentials(user: User) {
     const payload = {
       email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      username: user.username,
       role: user.role,
       permissions: user.permissions,
       sub: user.id,
+      userId: user.id,
     };
 
     return {

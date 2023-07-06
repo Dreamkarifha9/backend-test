@@ -50,6 +50,7 @@ type Permission implements BasicData {
   id: ID
   userId: String
   featureId: Float!
+  isUsed: Boolean!
   users: User!
   feature: Feature!
 }
@@ -87,6 +88,13 @@ type LoggedUserOutput {
   token: String!
 }
 
+type PermissionResponseDto {
+  id: ID
+  userId: String
+  featureId: Float!
+  isUsed: Boolean!
+}
+
 type Query {
   words: [String!]!
   user(id: String!): UserResponseDto!
@@ -98,6 +106,7 @@ type Mutation {
   updateUser(id: String!, input: UpdateUserInput!): UserResponseDto!
   deleteUser(id: String!): Boolean!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
+  createPermissions(input: [CreatePermissionInput!]!): [PermissionResponseDto!]!
 }
 
 input CreateUserInput {
@@ -124,4 +133,10 @@ input LoginUserInput {
 
   """password of the user"""
   password: String!
+}
+
+input CreatePermissionInput {
+  userId: String!
+  featureId: Float!
+  isUsed: Boolean!
 }

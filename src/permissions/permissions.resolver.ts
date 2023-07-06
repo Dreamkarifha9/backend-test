@@ -1,41 +1,29 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionInput } from './dto/create-permission.input';
-import { UpdatePermissionInput } from './dto/update-permission.input';
-
-@Resolver('Permission')
+import { Permission } from './entities/permission.entity';
+import { PermissionResponseDto } from './dto/permissions-response.dto';
+import { PROTECTTO } from 'src/shared/decorators';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { PermissionGuard } from 'src/auth/permissions.guard';
+import { EUserPermission } from 'src/shared/enums';
+@UseGuards(AuthGuard)
+@Resolver(() => Permission)
 export class PermissionsResolver {
   constructor(private readonly permissionsService: PermissionsService) { }
 
-  // @Mutation('createPermission')
-  // create(
-  //   @Args('createPermissionInput') createPermissionInput: CreatePermissionInput,
-  // ) {
-  //   return this.permissionsService.create(createPermissionInput);
-  // }
-
-  // @Query('permissions')
-  // findAll() {
-  //   return this.permissionsService.findAll();
-  // }
-
-  // @Query('permission')
-  // findOne(@Args('id') id: number) {
-  //   return this.permissionsService.findOne(id);
-  // }
-
-  // @Mutation('updatePermission')
-  // update(
-  //   @Args('updatePermissionInput') updatePermissionInput: UpdatePermissionInput,
-  // ) {
-  //   return this.permissionsService.update(
-  //     updatePermissionInput.id,
-  //     updatePermissionInput,
-  //   );
-  // }
-
-  // @Mutation('removePermission')
-  // remove(@Args('id') id: number) {
-  //   return this.permissionsService.remove(id);
-  // }
+  @UseGuards(PermissionGuard)
+  @PROTECTTO(EUserPermission.CREATE)
+  @Mutation(() => [PermissionResponseDto], { name: 'createPermissions' })
+  create(
+    @Args('input', {
+      type: () => [CreatePermissionInput],
+    })
+    createPermissionInput: CreatePermissionInput[],
+    @Context('user') user: any,
+  ) {
+    const { username } = user;
+    return this.permissionsService.create(createPermissionInput, username);
+  }
 }

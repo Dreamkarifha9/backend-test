@@ -8,7 +8,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
-import { UsersService } from './../users/users.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {

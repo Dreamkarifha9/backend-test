@@ -30,6 +30,10 @@ export class Permission extends BasicData {
   @FilterableField(() => Number)
   featureId: number;
 
+  @Column({ nullable: false, type: 'boolean' })
+  @FilterableField(() => Boolean)
+  isUsed: boolean;
+
   @ManyToOne(() => User, (user) => user.permissions)
   @JoinColumn({ name: 'userId' })
   @Field(() => User)

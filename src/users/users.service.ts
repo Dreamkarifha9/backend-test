@@ -51,7 +51,6 @@ export class UsersService {
       .andWhere('users.active = :active', { active: true })
       .andWhere('users.deleted = :deleted', { deleted: false })
       .getOne();
-    this.logger.debug(`user display ${JSON.stringify(user)}`);
     if (!user) {
       throw new NotFoundException('userNotFound');
     }
@@ -86,6 +85,7 @@ export class UsersService {
       .select([
         'users.id',
         'users.email',
+        'users.username',
         'users.firstName',
         'users.lastName',
         'users.password',
@@ -120,7 +120,6 @@ export class UsersService {
       loginUserInput.username,
       loginUserInput.password,
     );
-    this.logger.debug(`user loginUser display ${JSON.stringify(user)}`);
     if (!user) {
       throw new UnauthorizedException();
     } else {
