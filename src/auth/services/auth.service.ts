@@ -18,7 +18,7 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.usersService.validatePassword(username, password);
-    return user || null;
+    return user;
   }
 
   async generateUserCredentials(user: User) {
