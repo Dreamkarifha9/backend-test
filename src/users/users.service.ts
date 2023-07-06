@@ -39,7 +39,6 @@ export class UsersService {
     };
     const newUser = this.userRepository.create(user);
     const createdUser = await this.userRepository.save(newUser);
-    this.logger.debug(`createdUser ${JSON.stringify(createdUser)}`);
 
     return this.findById(createdUser.id);
   }
@@ -75,7 +74,6 @@ export class UsersService {
   async findAll(): Promise<UserResponseDto[]> {
     const foundUsers = await this.getJoinRoleAndPermissions().getMany();
 
-    this.logger.debug(`display :: ${JSON.stringify(foundUsers)}`);
     return foundUsers;
   }
 

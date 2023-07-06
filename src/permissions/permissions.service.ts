@@ -19,20 +19,6 @@ export class PermissionsService {
   ): Promise<PermissionResponseDto[]> {
     const newMapPermission = [];
     for (const [key, value] of Object.entries(createPermissionInput)) {
-      const permissionFound = await this.getPermission()
-        .where('permissions.userId = :userId', {
-          userId: value.userId,
-        })
-        .andWhere('permissions.featureId = :featureId', {
-          featureId: value.featureId,
-        })
-        .andWhere('permissions.active = :active', { active: true })
-        .andWhere('permissions.deleted = :deleted', { deleted: false })
-        .getOne();
-
-      if (permissionFound)
-        throw new ConflictException('Permission already exists.');
-
       newMapPermission.push({
         id: uuid(),
         active: true,
@@ -44,7 +30,6 @@ export class PermissionsService {
         ...value,
       });
     }
-
     return await this.permissionRepository.save(newMapPermission);
   }
 
