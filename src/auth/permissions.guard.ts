@@ -28,15 +28,12 @@ export class PermissionGuard implements CanActivate {
     );
 
     const request = GqlExecutionContext.create(context).getContext();
-    const { sub: userId } = request && request.user;
-    const user = await this.userService.findById(userId);
+    const { permissions } = request && request.user;
 
-    if (!user) return false;
-
-    const hasRole = user.permissions.map(({ feature }) =>
-      requiredPermissions.includes(feature.slug),
+    const hasRole = permissions.map((permissions) =>
+      requiredPermissions.includes(permissions),
     );
-    if (user.role && hasRole.includes(true)) {
+    if (hasRole.includes(true)) {
       return true;
     }
     return false;
