@@ -7,6 +7,6 @@ export class UserResponseDto extends PickType(User, [
   'email',
   'firstName',
   'lastName',
-  'userRole',
-  'userPermissions',
+  'role',
+  'permissions',
 ]) { }

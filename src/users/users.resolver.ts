@@ -9,7 +9,9 @@ import { LoginUserInput } from './dto/login-user.input';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
-
+import { PROTECTTO } from './../shared/decorators';
+import { EUserPermission } from 'src/shared/enums';
+import { PermissionGuard } from 'src/permissions/permissions.guard';
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) { }
@@ -29,7 +31,8 @@ export class UsersResolver {
     return this.usersService.findById(id);
   }
 
-  @UseGuards(JwtAuthGuard, AuthGuard)
+  @UseGuards(JwtAuthGuard, AuthGuard, PermissionGuard)
+  @PROTECTTO(EUserPermission.READ)
   @Query(() => [UserResponseDto], { name: 'users' })
   findAll(@Context('user') user: any): Promise<UserResponseDto[]> {
     console.log('findAll user ', JSON.stringify(user));

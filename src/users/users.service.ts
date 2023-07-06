@@ -90,12 +90,12 @@ export class UsersService {
         'users.lastName',
         'users.password',
       ])
-      .leftJoin('users.userRole', 'userRole')
-      .addSelect(['userRole.id', 'userRole.name'])
-      .leftJoin('users.userPermissions', 'userPermissions')
-      .addSelect(['userPermissions.userId', 'userPermissions.featureId'])
-      .leftJoin('userPermissions.feature', 'feature')
-      .addSelect(['feature.id', 'feature.name']);
+      .leftJoin('users.role', 'role')
+      .addSelect(['role.id', 'role.name'])
+      .leftJoin('users.permissions', 'permissions')
+      .addSelect(['permissions.userId', 'permissions.featureId'])
+      .leftJoin('permissions.feature', 'feature')
+      .addSelect(['feature.id', 'feature.name', 'feature.slug']);
   }
 
   async update(id: string, userDto: UpdateUserInput): Promise<UserResponseDto> {

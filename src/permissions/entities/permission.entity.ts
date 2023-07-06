@@ -30,7 +30,7 @@ export class Permission extends BasicData {
   @FilterableField(() => Number)
   featureId: number;
 
-  @ManyToOne(() => User, (user) => user.userPermissions)
+  @ManyToOne(() => User, (user) => user.permissions)
   @JoinColumn({ name: 'userId' })
   @Field(() => User)
   users?: User;

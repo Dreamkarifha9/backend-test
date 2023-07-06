@@ -57,11 +57,11 @@ export class User extends BasicData {
   @OneToOne(() => Role, (role) => role.user)
   @JoinColumn({ name: 'roleId' })
   @Field()
-  userRole?: Role;
+  role?: Role;
 
   @OneToMany(() => Permission, (permission) => permission.users)
   @Field(() => [Permission])
-  userPermissions?: Permission[];
+  permissions?: Permission[];
 
   private tmpPassword?: string;
 

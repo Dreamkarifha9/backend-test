@@ -2,10 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Word {
-  output: [String!]!
-}
-
 type Role implements BasicData {
   active: Boolean!
   deleted: Boolean!
@@ -41,6 +37,7 @@ type Feature implements BasicData {
   id: Float
   name: String
   description: String
+  slug: String
 }
 
 type Permission implements BasicData {
@@ -72,8 +69,8 @@ type User implements BasicData {
   password: String
   roleId: Float!
   salt: String
-  userRole: Role!
-  userPermissions: [Permission!]!
+  role: Role!
+  permissions: [Permission!]!
 }
 
 type UserResponseDto {
@@ -81,8 +78,8 @@ type UserResponseDto {
   firstName: String
   lastName: String
   email: String
-  userRole: Role!
-  userPermissions: [Permission!]!
+  role: Role!
+  permissions: [Permission!]!
 }
 
 type LoggedUserOutput {
@@ -91,7 +88,7 @@ type LoggedUserOutput {
 }
 
 type Query {
-  words: Word!
+  words: [String!]!
   user(id: String!): UserResponseDto!
   users: [UserResponseDto!]!
 }

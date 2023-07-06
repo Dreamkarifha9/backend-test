@@ -6,30 +6,30 @@ import { BaseDataDto } from 'src/shared/dtos/base-data.dto';
 export class UserDto extends BaseDataDto {
   id: string;
 
-  @Field()
+  @Field(() => String)
   @IsDefined({ message: 'It is required to send the password' })
   @IsString({ message: 'It is required to send a valid string' })
-  password!: string;
+  password: string;
 
-  @Field()
+  @Field(() => String)
   @IsDefined({ message: 'It is required to send the username' })
   @IsString({ message: 'It is required to send a valid string' })
-  username!: string;
+  username: string;
 
-  @Field()
+  @Field(() => String)
   @IsDefined({ message: 'It is required to send the firstName' })
   @IsString({ message: 'It is required to send a valid string' })
-  firstName!: string;
+  firstName: string;
 
-  @Field()
+  @Field(() => String)
   @IsDefined({ message: 'It is required to send the lastName' })
   @IsString({ message: 'It is required to send a valid string' })
-  lastName!: string;
+  lastName: string;
 
-  @Field()
+  @Field(() => String)
   @IsEmail()
-  email!: string;
+  email: string;
 
   @Field(() => Number)
-  roleId!: number;
+  roleId: number;
 }

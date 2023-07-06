@@ -1,14 +1,12 @@
 import { Query, Resolver } from '@nestjs/graphql';
 
-import { Word } from './word.entity';
 import { WordsService } from './words.service';
 
-@Resolver((of) => Word)
+@Resolver((of) => [String])
 export class WordsResolver {
   constructor(private readonly wordsService: WordsService) { }
-  @Query(() => Word, { name: 'words' })
-  words(): Word {
-    console.log('in');
+  @Query(() => [String], { name: 'words' })
+  words(): string[] {
     return this.wordsService.findWord();
   }
 }

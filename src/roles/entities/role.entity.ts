@@ -26,7 +26,7 @@ export class Role extends BasicData {
   @FilterableField(() => String)
   name: string;
 
-  @OneToOne(() => User, (user) => user.userRole)
+  @OneToOne(() => User, (user) => user.role)
   @JoinColumn({ name: 'id' })
   user?: User;
 

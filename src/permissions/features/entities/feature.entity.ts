@@ -23,6 +23,10 @@ export class Feature extends BasicData {
   @FilterableField({ nullable: true })
   description: string;
 
+  @Column({ nullable: false, type: 'varchar' })
+  @FilterableField({ nullable: true })
+  slug: string;
+
   @OneToOne(() => Permission, (permission) => permission.feature)
   @JoinColumn({ name: 'id' })
   permissions?: Permission;
