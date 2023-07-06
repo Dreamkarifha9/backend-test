@@ -31,11 +31,10 @@ export class UsersResolver {
     return this.usersService.findById(id);
   }
 
-  @UseGuards(JwtAuthGuard, AuthGuard, PermissionGuard)
+  @UseGuards(AuthGuard, PermissionGuard)
   @PROTECTTO(EUserPermission.READ)
   @Query(() => [UserResponseDto], { name: 'users' })
   findAll(@Context('user') user: any): Promise<UserResponseDto[]> {
-    console.log('findAll user ', JSON.stringify(user));
     return this.usersService.findAll();
   }
 

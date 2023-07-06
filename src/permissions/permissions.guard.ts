@@ -36,8 +36,6 @@ export class PermissionGuard implements CanActivate {
     const hasRole = user.permissions.map(({ feature }) =>
       requiredPermissions.includes(feature.slug),
     );
-    this.logger.debug('hasRole', hasRole);
-
     if (user.role && hasRole.includes(true)) {
       return true;
     }
