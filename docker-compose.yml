@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+    nginx:
+        image: nginx:1.24.0
+        container_name: nginx
+        restart: on-failure
+        ports:
+            - 80:80
+        volumes:
+            - /Users/dream/workshop/backend-test/config:/etc/nginx/conf.d
+        networks:
+            - backend-test
+    
+    api:
+        # image: node:16.17.0-bullseye-slim
+        container_name: backend 
+        build:
+            dockerfile: Dockerfile
+            context: .
+        depends_on: 
+            - postgres
+        environment: 
+            DATABASE_URL: postgres
+            NODE_ENV: development
+            PORT: 3000
+            POSTGRES_DATABASE: backend_test
+            POSTGRES_HOST: postgres
+            POSTGRES_LOGGING: true
+            POSTGRES_PASSWORD: password
+            POSTGRES_PORT: 5432
+            POSTGRES_USERNAME: user
+        # ports:
+        #     - "8086:3000"
+        networks:
+            - backend-test
+
+    postgres:
+        image: postgres:13
+        container_name: postgresql
+        ports:
+            - "5435:5432"
+        environment: 
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: backend_test
+        networks:
+            - backend-test
+networks:
+    backend-test:
+        external: true
