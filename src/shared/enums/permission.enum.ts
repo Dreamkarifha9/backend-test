@@ -1,4 +1,4 @@
-export enum EUserPermission {
+export enum ERoles {
   READ = 'read',
   CREATE = 'create',
   UPDATE = 'update',

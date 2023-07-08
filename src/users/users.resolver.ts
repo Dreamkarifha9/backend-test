@@ -6,10 +6,11 @@ import { UserResponseDto } from './dto/user-response.dto';
 import { UpdateUserInput } from './dto/update-user.input';
 import { LoggedUserOutput } from './dto/login-user.output';
 import { LoginUserInput } from './dto/login-user.input';
+
+import { ERoles } from 'src/shared/enums';
+import { ProtectTo } from 'src/shared/decorators/protech-to.decorator';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from './../auth/auth.guard';
-import { PROTECTTO } from 'src/shared/decorators';
-import { EUserPermission } from 'src/shared/enums';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -25,19 +26,19 @@ export class UsersResolver {
     return await this.usersService.create(createUserInput);
   }
 
-  @PROTECTTO(EUserPermission.READ)
+  @ProtectTo(ERoles.READ)
   @Query(() => UserResponseDto, { name: 'user' })
   findOne(@Args('id') id: string) {
     return this.usersService.findById(id);
   }
 
-  @PROTECTTO(EUserPermission.READ)
+  @ProtectTo(ERoles.READ)
   @Query(() => [UserResponseDto], { name: 'users' })
   findAll(@Context('user') user: any): Promise<UserResponseDto[]> {
     return this.usersService.findAll();
   }
 
-  @PROTECTTO(EUserPermission.UPDATE)
+  @ProtectTo(ERoles.UPDATE)
   @Mutation(() => UserResponseDto, { name: 'updateUser' })
   update(
     @Args('id') id: string,
@@ -50,7 +51,7 @@ export class UsersResolver {
     return this.usersService.update(id, updateUserInput);
   }
 
-  @PROTECTTO(EUserPermission.DELETE)
+  @ProtectTo(ERoles.DELETE)
   @Mutation(() => Boolean, { name: 'deleteUser' })
   delete(@Args('id') id: string): Promise<boolean> {
     return this.usersService.delete(id);

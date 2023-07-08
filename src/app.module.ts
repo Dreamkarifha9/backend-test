@@ -15,8 +15,7 @@ import { DatabaseConfig } from './configs/database.config';
 import { PermissionsModule } from './permissions/permissions.module';
 import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './auth/roles.guard';
+
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
 
 @Module({
@@ -32,7 +31,7 @@ import { AuthMiddleware } from './auth/middleware/auth.middleware';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      context: ({ req }) => ({ user: req['user'] }),
+      // context: ({ req }) => ({ user: req.user }),
     }),
     WordsModule,
     UsersModule,
@@ -40,17 +39,12 @@ import { AuthMiddleware } from './auth/middleware/auth.middleware';
     RolesModule,
     AuthModule,
   ],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
-  ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
-  }
-}
+export class AppModule { }
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer
+//       .apply(AuthMiddleware)
+//       .forRoutes({ path: '*', method: RequestMethod.ALL });
+//   }
+// }

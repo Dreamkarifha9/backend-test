@@ -30,6 +30,7 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const request = GqlExecutionContext.create(context).getContext();
+    this.logger.debug(`permissions ${JSON.stringify(request['user'])}`);
 
     const { permissions } = request && request['user'];
     this.logger.debug(`permissions ${permissions}`);
