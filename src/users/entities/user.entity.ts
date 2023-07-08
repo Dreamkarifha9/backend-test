@@ -16,7 +16,7 @@ import { FilterableField, IDField } from '@nestjs-query/query-graphql';
 import { Role } from 'src/roles/entities/role.entity';
 import { Permission } from 'src/permissions/entities/permission.entity';
 import { checkRoleMiddleware } from 'src/shared/decorators/check-role-middleware';
-import { EPermission } from 'src/shared/enums';
+import { ERole } from 'src/shared/enums/role.enum';
 @Entity('users', { schema: 'user' })
 @ObjectType({
   implements: () => [BasicData],
@@ -30,7 +30,7 @@ export class User extends BasicData {
 
   @Column({ unique: false, nullable: false })
   @FilterableField({ nullable: true, middleware: [checkRoleMiddleware] })
-  @Extensions({ role: EPermission.READ })
+  @Extensions({ role: ERole.MANAGER })
   username: string;
 
   @Column({ nullable: false, type: 'varchar' })
