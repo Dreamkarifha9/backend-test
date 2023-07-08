@@ -4,13 +4,11 @@ import { CreatePermissionInput } from './dto/create-permission.input';
 import { Permission } from './entities/permission.entity';
 import { PermissionResponseDto } from './dto/permissions-response.dto';
 
-import { UseGuards, UsePipes } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { UsePipes } from '@nestjs/common';
 
 import { ERoles } from 'src/shared/enums';
 import { PermissionsValidationPipe } from './permissions-validation.pipe';
 import { ProtectTo } from 'src/shared/decorators/protech-to.decorator';
-@UseGuards(AuthGuard)
 @Resolver(() => Permission)
 export class PermissionsResolver {
   constructor(private readonly permissionsService: PermissionsService) { }

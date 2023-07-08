@@ -96,9 +96,9 @@ type PermissionResponseDto {
 }
 
 type Query {
-  words: [String!]!
   user(id: String!): UserResponseDto!
   users: [UserResponseDto!]!
+  words: [String!]!
 }
 
 type Mutation {

@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
-import { WordsModule } from './words/words.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -17,6 +16,7 @@ import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
 
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
+import { WordsModule } from './words/words.module';
 
 @Module({
   imports: [
@@ -33,11 +33,12 @@ import { AuthMiddleware } from './auth/middleware/auth.middleware';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       // context: ({ req }) => ({ user: req.user }),
     }),
-    WordsModule,
+
     UsersModule,
     PermissionsModule,
     RolesModule,
     AuthModule,
+    WordsModule,
   ],
 })
 export class AppModule { }

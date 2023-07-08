@@ -1,0 +1,24 @@
+type Word {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateWordInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateWordInput {
+  id: Int!
+}
+
+type Query {
+  words: [Word]!
+  word(id: Int!): Word
+}
+
+type Mutation {
+  createWord(createWordInput: CreateWordInput!): Word!
+  updateWord(updateWordInput: UpdateWordInput!): Word!
+  removeWord(id: Int!): Word
+}
