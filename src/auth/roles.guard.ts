@@ -31,14 +31,13 @@ export class RolesGuard implements CanActivate {
     }
 
     const request = GqlExecutionContext.create(context).getContext();
-    this.logger.debug(`permissions ${JSON.stringify(request['user'])}`);
 
     const { userId } = request && request['user'];
 
     const { permissions } = await this.userService.findById(userId);
-    this.logger.debug(`permissions ${permissions}`);
+    this.logger.debug(`permissions ${JSON.stringify(permissions)}`);
     const hasRole = permissions.map(({ feature }) =>
-      roles.includes(feature.name),
+      roles.includes(feature.slug),
     );
     if (hasRole.includes(true)) {
       return true;
