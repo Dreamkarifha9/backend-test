@@ -5,7 +5,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 
 import { RolesGuard } from 'src/auth/roles.guard';
 import { EPermission } from '../enums';
-import { Roles } from './roles.decorator';
+import { Permissions } from './permissions.decorator';
 
 /**
  * Decorator that sets all the protect roles and it guards
@@ -19,5 +19,8 @@ export function ProtectTo(
   propertyKey?: string | symbol,
   descriptor?: TypedPropertyDescriptor<Y>,
 ) => void {
-  return applyDecorators(Roles(...roles), UseGuards(AuthGuard, RolesGuard));
+  return applyDecorators(
+    Permissions(...roles),
+    UseGuards(AuthGuard, RolesGuard),
+  );
 }
