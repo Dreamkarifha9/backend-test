@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
     if (authorizationHeader) {
       const token = authorizationHeader.split(' ')[1];
       try {
+        // TODO:: เช็ค role or permission ณ ปัจจุบัน เอาสิ่งที่ได้จาก verifyToken มาเทียบกับ db ถ้ามีอะไรอัพเดทให้กลับไป login มาใหม่
         const user = await this.authService.verifyToken(token);
         ctx.user = user;
         return true;
