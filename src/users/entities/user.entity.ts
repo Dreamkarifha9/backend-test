@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Extensions, Field, ID, ObjectType } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
 import { BasicData } from 'src/shared/dtos/basic-data.entity';
 import {
@@ -15,6 +15,8 @@ import {
 import { FilterableField, IDField } from '@nestjs-query/query-graphql';
 import { Role } from 'src/roles/entities/role.entity';
 import { Permission } from 'src/permissions/entities/permission.entity';
+import { checkRoleMiddleware } from 'src/shared/decorators/check-role-middleware';
+import { EPermission } from 'src/shared/enums';
 @Entity('users', { schema: 'user' })
 @ObjectType({
   implements: () => [BasicData],
@@ -27,7 +29,8 @@ export class User extends BasicData {
   public id!: string;
 
   @Column({ unique: false, nullable: false })
-  @FilterableField({ nullable: true })
+  @FilterableField({ nullable: true, middleware: [checkRoleMiddleware] })
+  @Extensions({ role: EPermission.READ })
   username: string;
 
   @Column({ nullable: false, type: 'varchar' })

@@ -76,6 +76,7 @@ type User implements BasicData {
 
 type UserResponseDto {
   id: ID
+  username: String
   firstName: String
   lastName: String
   email: String

@@ -4,7 +4,7 @@ import { applyDecorators, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 import { RolesGuard } from 'src/auth/roles.guard';
-import { ERoles } from '../enums';
+import { EPermission } from '../enums';
 import { Roles } from './roles.decorator';
 
 /**
@@ -13,7 +13,7 @@ import { Roles } from './roles.decorator';
  * @param roles stores the roles allowed to do something
  */
 export function ProtectTo(
-  ...roles: ERoles[]
+  ...roles: EPermission[]
 ): <TFunction extends Function, Y>(
   target: unknown | TFunction,
   propertyKey?: string | symbol,

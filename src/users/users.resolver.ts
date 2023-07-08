@@ -7,7 +7,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { LoggedUserOutput } from './dto/login-user.output';
 import { LoginUserInput } from './dto/login-user.input';
 
-import { ERoles } from 'src/shared/enums';
+import { EPermission } from 'src/shared/enums';
 import { ProtectTo } from 'src/shared/decorators/protech-to.decorator';
 
 @Resolver(() => User)
@@ -24,19 +24,19 @@ export class UsersResolver {
     return await this.usersService.create(createUserInput);
   }
 
-  @ProtectTo(ERoles.READ)
+  @ProtectTo(EPermission.READ)
   @Query(() => UserResponseDto, { name: 'user' })
   findOne(@Args('id') id: string) {
     return this.usersService.findById(id);
   }
 
-  @ProtectTo(ERoles.READ)
+  @ProtectTo(EPermission.READ)
   @Query(() => [UserResponseDto], { name: 'users' })
   findAll(@Context('user') user: any): Promise<UserResponseDto[]> {
     return this.usersService.findAll();
   }
 
-  @ProtectTo(ERoles.UPDATE)
+  @ProtectTo(EPermission.UPDATE)
   @Mutation(() => UserResponseDto, { name: 'updateUser' })
   update(
     @Args('id') id: string,
@@ -49,7 +49,7 @@ export class UsersResolver {
     return this.usersService.update(id, updateUserInput);
   }
 
-  @ProtectTo(ERoles.DELETE)
+  @ProtectTo(EPermission.DELETE)
   @Mutation(() => Boolean, { name: 'deleteUser' })
   delete(@Args('id') id: string): Promise<boolean> {
     return this.usersService.delete(id);

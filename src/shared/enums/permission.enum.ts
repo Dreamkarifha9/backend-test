@@ -1,4 +1,4 @@
-export enum ERoles {
+export enum EPermission {
   READ = 'read',
   CREATE = 'create',
   UPDATE = 'update',

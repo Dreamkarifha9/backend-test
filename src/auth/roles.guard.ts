@@ -35,7 +35,7 @@ export class RolesGuard implements CanActivate {
     const { userId } = request && request['user'];
 
     const { permissions } = await this.userService.findById(userId);
-    this.logger.debug(`permissions ${JSON.stringify(permissions)}`);
+    // this.logger.debug(`permissions ${JSON.stringify(permissions)}`);
     const hasRole = permissions.map(({ feature }) =>
       roles.includes(feature.slug),
     );

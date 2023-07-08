@@ -6,14 +6,14 @@ import { PermissionResponseDto } from './dto/permissions-response.dto';
 
 import { UsePipes } from '@nestjs/common';
 
-import { ERoles } from 'src/shared/enums';
+import { EPermission } from 'src/shared/enums';
 import { PermissionsValidationPipe } from './permissions-validation.pipe';
 import { ProtectTo } from 'src/shared/decorators/protech-to.decorator';
 @Resolver(() => Permission)
 export class PermissionsResolver {
   constructor(private readonly permissionsService: PermissionsService) { }
 
-  @ProtectTo(ERoles.CREATE)
+  @ProtectTo(EPermission.CREATE)
   @UsePipes(PermissionsValidationPipe)
   @Mutation(() => [PermissionResponseDto], { name: 'createPermissions' })
   create(
@@ -27,7 +27,7 @@ export class PermissionsResolver {
     return this.permissionsService.create(createPermissionInput, username);
   }
 
-  @ProtectTo(ERoles.DELETE)
+  @ProtectTo(EPermission.DELETE)
   @Mutation(() => Boolean, { name: 'deletePermission' })
   delete(@Args('userId') userId: string): Promise<boolean> {
     return this.permissionsService.delete(userId);
