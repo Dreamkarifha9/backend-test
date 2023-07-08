@@ -8,7 +8,6 @@ import { LoggedUserOutput } from './dto/login-user.output';
 import { LoginUserInput } from './dto/login-user.input';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from './../auth/auth.guard';
-import { PermissionGuard } from 'src/auth/permissions.guard';
 import { PROTECTTO } from 'src/shared/decorators';
 import { EUserPermission } from 'src/shared/enums';
 
@@ -26,21 +25,18 @@ export class UsersResolver {
     return await this.usersService.create(createUserInput);
   }
 
-  @UseGuards(AuthGuard, PermissionGuard)
   @PROTECTTO(EUserPermission.READ)
   @Query(() => UserResponseDto, { name: 'user' })
   findOne(@Args('id') id: string) {
     return this.usersService.findById(id);
   }
 
-  @UseGuards(AuthGuard, PermissionGuard)
   @PROTECTTO(EUserPermission.READ)
   @Query(() => [UserResponseDto], { name: 'users' })
   findAll(@Context('user') user: any): Promise<UserResponseDto[]> {
     return this.usersService.findAll();
   }
 
-  @UseGuards(AuthGuard, PermissionGuard)
   @PROTECTTO(EUserPermission.UPDATE)
   @Mutation(() => UserResponseDto, { name: 'updateUser' })
   update(
@@ -54,7 +50,6 @@ export class UsersResolver {
     return this.usersService.update(id, updateUserInput);
   }
 
-  @UseGuards(AuthGuard, PermissionGuard)
   @PROTECTTO(EUserPermission.DELETE)
   @Mutation(() => Boolean, { name: 'deleteUser' })
   delete(@Args('id') id: string): Promise<boolean> {

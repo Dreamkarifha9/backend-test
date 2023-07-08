@@ -6,7 +6,7 @@ import { PermissionResponseDto } from './dto/permissions-response.dto';
 import { PROTECTTO } from 'src/shared/decorators';
 import { UseGuards, UsePipes } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { PermissionGuard } from 'src/auth/permissions.guard';
+
 import { EUserPermission } from 'src/shared/enums';
 import { PermissionsValidationPipe } from './permissions-validation.pipe';
 @UseGuards(AuthGuard)
@@ -14,7 +14,6 @@ import { PermissionsValidationPipe } from './permissions-validation.pipe';
 export class PermissionsResolver {
   constructor(private readonly permissionsService: PermissionsService) { }
 
-  @UseGuards(PermissionGuard)
   @PROTECTTO(EUserPermission.CREATE)
   @UsePipes(PermissionsValidationPipe)
   @Mutation(() => [PermissionResponseDto], { name: 'createPermissions' })
@@ -29,7 +28,6 @@ export class PermissionsResolver {
     return this.permissionsService.create(createPermissionInput, username);
   }
 
-  @UseGuards(AuthGuard, PermissionGuard)
   @PROTECTTO(EUserPermission.DELETE)
   @Mutation(() => Boolean, { name: 'deletePermission' })
   delete(@Args('userId') userId: string): Promise<boolean> {

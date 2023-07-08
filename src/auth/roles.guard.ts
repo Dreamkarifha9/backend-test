@@ -11,8 +11,8 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
-export class PermissionGuard implements CanActivate {
-  private readonly logger: Logger = new Logger(PermissionGuard.name);
+export class RolesGuard implements CanActivate {
+  private readonly logger: Logger = new Logger(RolesGuard.name);
   private ROLES_KEY: string;
   constructor(
     private reflector: Reflector,
@@ -22,16 +22,19 @@ export class PermissionGuard implements CanActivate {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requiredPermissions = this.reflector.getAllAndOverride<string>(
-      this.ROLES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
-
+    const roles = this.reflector.getAllAndOverride<string>(this.ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    if (!roles) {
+      return true;
+    }
     const request = GqlExecutionContext.create(context).getContext();
-    const { permissions } = request && request.user;
 
+    const { permissions } = request && request['user'];
+    this.logger.debug(`permissions ${permissions}`);
     const hasRole = permissions.map((permissions) =>
-      requiredPermissions.includes(permissions),
+      roles.includes(permissions),
     );
     if (hasRole.includes(true)) {
       return true;
