@@ -12,8 +12,8 @@ CREATE TABLE "user".roles (
 );
 
 
-INSERT INTO "user".roles (id,"name",active,deleted,"createdAt","createdBy","updatedAt","updatedBy",slug) VALUES
-	 (1,'Staff',true,false,'2022-10-11 12:03:34.426',NULL,'2022-10-11 12:03:34.426',NULL,'read'),
-	 (2,'Super Admin',true,false,'2022-10-11 12:03:48.098',NULL,'2022-10-11 12:03:48.098',NULL,'create'),
-	 (3, 'Manager',true,false,'2022-10-11 12:03:58.979',NULL,'2022-10-11 12:03:58.979',NULL,'update');
+INSERT INTO "user".roles (id,"name",active,deleted,"createdAt","createdBy","updatedAt","updatedBy") VALUES
+	 (1,'Staff',true,false,'2022-10-11 12:03:34.426',NULL,'2022-10-11 12:03:34.426',NULL),
+	 (2,'Super Admin',true,false,'2022-10-11 12:03:48.098',NULL,'2022-10-11 12:03:48.098',NULL),
+	 (3, 'Manager',true,false,'2022-10-11 12:03:58.979',NULL,'2022-10-11 12:03:58.979',NULL);
 

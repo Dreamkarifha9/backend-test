@@ -29,8 +29,8 @@ services:
             POSTGRES_PASSWORD: password
             POSTGRES_PORT: 5432
             POSTGRES_USERNAME: user
-        # ports:
-        #     - "8086:3000"
+        ports:
+            - "3000:3000"
         networks:
             - backend-test
 

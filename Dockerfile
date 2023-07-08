@@ -24,5 +24,5 @@ COPY . .
 RUN yarn add global @nestjs/cli
 RUN yarn build
 
-EXPOSE 8086
+EXPOSE 3000
 CMD ["yarn", "start:prod"]
