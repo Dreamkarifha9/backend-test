@@ -1,11 +1,9 @@
 import { forwardRef, Module } from '@nestjs/common';
 
 import { UsersModule } from '../users/users.module';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './services/auth.service';
-import { AuthGuard } from './auth.guard';
-import { RolesGuard } from './roles.guard';
 
 @Module({
   imports: [

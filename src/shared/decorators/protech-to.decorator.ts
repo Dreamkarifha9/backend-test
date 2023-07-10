@@ -3,7 +3,7 @@
 import { applyDecorators, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 
-import { RolesGuard } from 'src/auth/roles.guard';
+import { PermissionGuard } from 'src/auth/permission.guard';
 import { EPermission } from '../enums';
 import { Permissions } from './permissions.decorator';
 
@@ -21,6 +21,6 @@ export function ProtectTo(
 ) => void {
   return applyDecorators(
     Permissions(...roles),
-    UseGuards(AuthGuard, RolesGuard),
+    UseGuards(AuthGuard, PermissionGuard),
   );
 }
