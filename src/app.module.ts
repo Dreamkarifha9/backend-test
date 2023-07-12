@@ -31,7 +31,7 @@ import { WordsModule } from './words/words.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      // context: ({ req }) => ({ user: req.user }),
+      context: ({ req }) => ({ user: req.user }),
     }),
 
     UsersModule,
@@ -41,11 +41,11 @@ import { WordsModule } from './words/words.module';
     WordsModule,
   ],
 })
-export class AppModule { }
-// export class AppModule implements NestModule {
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer
-//       .apply(AuthMiddleware)
-//       .forRoutes({ path: '*', method: RequestMethod.ALL });
-//   }
-// }
+// export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

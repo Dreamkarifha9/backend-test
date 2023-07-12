@@ -46,9 +46,9 @@ export class PermissionsService {
       ]);
   }
 
-  async delete(userId: string): Promise<boolean> {
+  async delete(roleId: string): Promise<boolean> {
     const userPermissions = await this.permissionRepository.find({
-      where: { userId },
+      where: { roleId },
     });
     if (userPermissions) {
       const ids = userPermissions.map((permissions) => permissions.id);

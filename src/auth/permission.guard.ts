@@ -34,9 +34,9 @@ export class PermissionGuard implements CanActivate {
 
     const { userId } = request && request['user'];
 
-    const { permissions } = await this.userService.findById(userId);
+    const { role } = await this.userService.findById(userId);
     // this.logger.debug(`permissions ${JSON.stringify(permissions)}`);
-    const hasRole = permissions.map(({ feature }) =>
+    const hasRole = role.permissions.map(({ feature }) =>
       permission.includes(feature.slug),
     );
     if (hasRole.includes(true)) {

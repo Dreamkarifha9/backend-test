@@ -30,7 +30,7 @@ export class User extends BasicData {
 
   @Column({ unique: false, nullable: false })
   @FilterableField({ nullable: true, middleware: [checkRoleMiddleware] })
-  @Extensions({ role: ERole.MANAGER })
+  @Extensions({ role: ERole.SUPERADMIN })
   username: string;
 
   @Column({ nullable: false, type: 'varchar' })
@@ -61,10 +61,6 @@ export class User extends BasicData {
   @JoinColumn({ name: 'roleId' })
   @Field()
   role?: Role;
-
-  @OneToMany(() => Permission, (permission) => permission.users)
-  @Field(() => [Permission])
-  permissions?: Permission[];
 
   private tmpPassword?: string;
 

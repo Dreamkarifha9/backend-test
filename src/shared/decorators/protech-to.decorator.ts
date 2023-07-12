@@ -19,8 +19,5 @@ export function ProtectTo(
   propertyKey?: string | symbol,
   descriptor?: TypedPropertyDescriptor<Y>,
 ) => void {
-  return applyDecorators(
-    Permissions(...roles),
-    UseGuards(AuthGuard, PermissionGuard),
-  );
+  return applyDecorators(Permissions(...roles));
 }

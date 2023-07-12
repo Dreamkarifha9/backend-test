@@ -90,15 +90,15 @@ export class UsersService {
       ])
       .leftJoin('users.role', 'role')
       .addSelect(['role.id', 'role.name'])
-      .leftJoin('users.permissions', 'permissions')
-      .addSelect(['permissions.userId', 'permissions.featureId'])
+      .leftJoin('role.permissions', 'permissions')
+      .addSelect(['permissions.roleId', 'permissions.featureId'])
       .leftJoin('permissions.feature', 'feature')
       .addSelect(['feature.id', 'feature.name', 'feature.slug']);
   }
 
   async update(id: string, userDto: UpdateUserInput): Promise<UserResponseDto> {
     const foundUser = await this.findById(id);
-    delete foundUser.permissions && foundUser.role;
+    delete foundUser.role;
     // todo: return userNotFound
     const mapUserDto = {
       ...foundUser,

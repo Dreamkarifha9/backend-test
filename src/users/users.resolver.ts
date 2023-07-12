@@ -9,6 +9,8 @@ import { LoginUserInput } from './dto/login-user.input';
 
 import { EPermission } from 'src/shared/enums';
 import { ProtectTo } from 'src/shared/decorators/protech-to.decorator';
+import { UseGuards } from '@nestjs/common';
+import { PermissionGuard } from 'src/auth/permission.guard';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -29,7 +31,7 @@ export class UsersResolver {
   findOne(@Args('id') id: string) {
     return this.usersService.findById(id);
   }
-
+  @UseGuards(PermissionGuard)
   @ProtectTo(EPermission.READ)
   @Query(() => [UserResponseDto], { name: 'users' })
   findAll(@Context('user') user: any): Promise<UserResponseDto[]> {

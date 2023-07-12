@@ -11,6 +11,7 @@ import {
 import { FilterableField, IDField } from '@nestjs-query/query-graphql';
 import { User } from 'src/users/entities/user.entity';
 import { Feature } from '../features/entities/feature.entity';
+import { Role } from 'src/roles/entities/role.entity';
 @Entity('permissions', { schema: 'user' })
 @ObjectType({
   implements: () => [BasicData],
@@ -22,9 +23,9 @@ export class Permission extends BasicData {
   })
   public id!: string;
 
-  @Column({ unique: false, nullable: false })
-  @FilterableField({ nullable: true })
-  userId: string;
+  @Column({ nullable: false, type: 'int4' })
+  @FilterableField(() => Number)
+  roleId: string;
 
   @Column({ nullable: false, type: 'int4' })
   @FilterableField(() => Number)
@@ -34,10 +35,10 @@ export class Permission extends BasicData {
   @FilterableField(() => Boolean)
   isUsed: boolean;
 
-  @ManyToOne(() => User, (user) => user.permissions)
-  @JoinColumn({ name: 'userId' })
-  @Field(() => User)
-  users?: User;
+  @ManyToOne(() => Role, (role) => role.permissions)
+  @JoinColumn({ name: 'roleId' })
+  @Field(() => Role)
+  role?: Role;
 
   @OneToOne(() => Feature, (feature) => feature.permissions)
   @JoinColumn({ name: 'featureId' })

@@ -22,11 +22,12 @@ export class AuthService {
   }
 
   async generateUserCredentials(user: User) {
+    console.log(`user ${JSON.stringify(user)}`);
     const payload = {
       email: user.email,
       username: user.username,
       role: user.role,
-      permissions: user.permissions.map((item) => item.feature.slug),
+      permissions: user.role.permissions.map((item) => item.feature.slug),
       userId: user.id,
     };
 
