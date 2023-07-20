@@ -9,9 +9,6 @@ import { Permission } from 'src/permissions/entities/permission.entity';
 })
 export class Feature extends BasicData {
   @PrimaryColumn()
-  @IDField(() => ID, {
-    nullable: true,
-  })
   @Field(() => Number)
   id: number;
 

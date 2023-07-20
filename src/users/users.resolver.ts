@@ -38,6 +38,7 @@ export class UsersResolver {
     return this.usersService.findAll();
   }
 
+  @UseGuards(PermissionGuard)
   @ProtectTo(EPermission.UPDATE)
   @Mutation(() => UserResponseDto, { name: 'updateUser' })
   update(
@@ -51,6 +52,7 @@ export class UsersResolver {
     return this.usersService.update(id, updateUserInput);
   }
 
+  @UseGuards(PermissionGuard)
   @ProtectTo(EPermission.DELETE)
   @Mutation(() => Boolean, { name: 'deleteUser' })
   delete(@Args('id') id: string): Promise<boolean> {

@@ -9,7 +9,7 @@ type Feature implements BasicData {
   createdBy: String
   updatedAt: DateTime
   updatedBy: String
-  id: Float
+  id: Float!
   name: String
   description: String
   slug: String
